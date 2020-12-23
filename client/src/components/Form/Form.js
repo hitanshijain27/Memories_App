@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Typography, Paper } from '@material-ui/core';
+import { TextField, Button, Typography, Paper, Checkbox } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import FileBase from 'react-file-base64';
 
@@ -7,7 +7,7 @@ import useStyles from './styles';
 import { createPost, updatePost } from '../../actions/posts';
 
 const Form = ({ currentId, setCurrentId }) => {
-  const [postData, setPostData] = useState({ creator: '', title: '', message: '', tags: '', selectedFile: '' });
+  const [postData, setPostData] = useState({ id: '', customer_name: '', customer_email: '', product: '', quantity: '' });
   const post = useSelector((state) => (currentId ? state.posts.find((message) => message._id === currentId) : null));
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -18,7 +18,7 @@ const Form = ({ currentId, setCurrentId }) => {
 
   const clear = () => {
     setCurrentId(0);
-    setPostData({ creator: '', title: '', message: '', tags: '', selectedFile: '' });
+    setPostData({ id: '', customer_name: '', customer_email: '', product: '', quantity: '' });
   };
 
   const handleSubmit = async (e) => {
@@ -36,12 +36,17 @@ const Form = ({ currentId, setCurrentId }) => {
   return (
     <Paper className={classes.paper}>
       <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
-        <Typography variant="h6">{currentId ? `Editing "${post.title}"` : 'Creating a Memory'}</Typography>
-        <TextField name="creator" variant="outlined" label="Creator" fullWidth value={postData.creator} onChange={(e) => setPostData({ ...postData, creator: e.target.value })} />
-        <TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
-        <TextField name="message" variant="outlined" label="Message" fullWidth multiline rows={4} value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
-        <TextField name="tags" variant="outlined" label="Tags (coma separated)" fullWidth value={postData.tags} onChange={(e) => setPostData({ ...postData, tags: e.target.value.split(',') })} />
-        <div className={classes.fileInput}><FileBase type="file" multiple={false} onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} /></div>
+        <Typography variant="h6">{currentId ? `Edit "${post.id}"` : 'Create New Order'}</Typography>
+        <TextField name="id" variant="outlined" label="Order ID" fullWidth value={postData.id} onChange={(e) => setPostData({ ...postData, id: e.target.value })} />
+        <TextField name="customer_name" variant="outlined" label="Customer name" fullWidth value={postData.customer_name} onChange={(e) => setPostData({ ...postData, customer_name: e.target.value })} />
+        <TextField name="customer_email" variant="outlined" label="Customer email" fullWidth value={postData.customer_email} onChange={(e) => setPostData({ ...postData, customer_email: e.target.value })} />
+        <TextField name="product" variant= "outlined" label="Product 1/2/3" fullWidth value={postData.product} onChange={(e) => setPostData({ ...postData, product: e.target.value })}/>
+        
+        <label>
+          Quantity:
+          <input type="number" min="0" name="quantity" variant= "outlined"  value={postData.quantity} onChange={(e) => setPostData({ ...postData, quantity: e.target.value })}/>
+        </label>
+
         <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>Submit</Button>
         <Button variant="contained" color="secondary" size="small" onClick={clear} fullWidth>Clear</Button>
       </form>

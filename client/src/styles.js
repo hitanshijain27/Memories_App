@@ -1,18 +1,15 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles(() => ({
-  appBar: {
-    borderRadius: 15,
-    margin: '30px 0',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+
   heading: {
-    color: 'rgba(0,183,255, 1)',
+    color: "black",
+    margin: '25px 0',
   },
-  image: {
-    marginLeft: '15px',
+  button: {
+    top:'30px',
+    right: '25px',
+    fontSize: '1px',
+    position: 'absolute',
   },
 }));
